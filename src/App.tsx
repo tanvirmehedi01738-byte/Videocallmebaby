@@ -45,7 +45,13 @@ export default function App() {
     };
     window.addEventListener('keydown', handleKeyDown);
 
+    // Safety fallback: ensure initializing spinner is dismissed even if network is delayed on GitHub Pages
+    const fallbackTimer = setTimeout(() => {
+      setIsInitializing(false);
+    }, 1500);
+
     return () => {
+      clearTimeout(fallbackTimer);
       unsubscribe();
       window.removeEventListener('hashchange', checkHash);
       window.removeEventListener('keydown', handleKeyDown);
